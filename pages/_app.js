@@ -1,7 +1,24 @@
-import '../styles/globals.css'
+import { MantineProvider } from "@mantine/core";
+import SEO from "@components/SEO/index.js";
 
-function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />
+import "@styles/globals.css";
+
+export default function App(props) {
+  const { Component, pageProps } = props;
+
+  return (
+    <>
+      <SEO title="Breathing" />
+      <MantineProvider
+        withGlobalStyles
+        withNormalizeCSS
+        theme={{
+          /** Put your mantine theme override here */
+          colorScheme: "dark",
+        }}
+      >
+        <Component {...pageProps} />
+      </MantineProvider>
+    </>
+  );
 }
-
-export default MyApp
