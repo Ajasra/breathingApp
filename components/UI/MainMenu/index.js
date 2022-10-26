@@ -1,19 +1,21 @@
-import { Container, Center, Tooltip } from "@mantine/core";
+import { Center, Tooltip, Group} from "@mantine/core";
 import { GearIcon, InfoCircledIcon } from "@radix-ui/react-icons";
+
+import styles from "@styles/MainMenu.module.css";
 
 export default function MainMenu(props) {
   return (
-    <Container className="MainMenu">
-      <Center className="btn">
+    <Group  className={styles.MainMenu} spacing="xs">
+      <Center className={styles.Button}>
         <Tooltip label="Settings">
-          <GearIcon className="svg-icon" />
+          <GearIcon className={styles.SvgIcon} />
         </Tooltip>
       </Center>
-      <Center className="btn">
+      <Center className={styles.Button}>
         <Tooltip label="About">
-          <InfoCircledIcon className="svg-icon" />
+          <InfoCircledIcon className={styles.SvgIcon} />
         </Tooltip>
       </Center>
-    </Container>
+    </Group >
   );
 }

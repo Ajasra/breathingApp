@@ -1,14 +1,13 @@
 import styles from "../styles/Home.module.css";
 
-import axios from "axios";
-
 import { useEffect, useState } from "react";
 import PageHeader from "@components/UI/Header";
 import Footer from "@components/UI/Footer";
 import { Container, Center, Button, Title, Text } from "@mantine/core";
+import { saveSession } from "@utils/saveSession";
 
 export default function Home() {
-  const [title, setTitle] = useState("GET READY");
+  const [title, setTitle] = useState("BREATH RETENTION");
   const [subtitle, setSubtitle] = useState("");
 
   const [userId, setUserId] = useState(1);
@@ -17,10 +16,10 @@ export default function Home() {
   const [sessionData, setSessionData] = useState([]);
   const [sessionSettings, setSessionSettings] = useState({
     speed: 30,
-    count: 30,
+    count: 1,
     cycles: 3,
-    countDown: 3,
-    holdTime: 15,
+    countDown: 1,
+    holdTime: 1,
   });
   const [sessionCycle, setSessionCycle] = useState(-1);
   const [sessionState, setSessionState] = useState(-1);
@@ -31,6 +30,7 @@ export default function Home() {
 
   const [maxRetention, setMaxRetention] = useState(0);
   const [averageRetention, setAverageRetention] = useState(0);
+  const [averagePercent, setAveragePercent] = useState(50);
 
   useEffect(() => {
     closeSession();
@@ -68,38 +68,6 @@ export default function Home() {
     setSessionData([...sessionData, retentionTime.toFixed(1)]);
   }
 
-  function saveSession(data, settings) {
-    let retention_time = "";
-    data.map((item, index) => {
-      if (index == 0) retention_time = item;
-      else retention_time = retention_time + "," + item;
-    });
-    let set =
-      settings.speed +
-      "," +
-      settings.count +
-      "," +
-      settings.cycles +
-      "," +
-      settings.holdTime;
-
-    try {
-      const response = axios.post(
-        "http://localhost:1337/api/br-sessions?populate=br_user",
-        {
-          data: {
-            br_user: [userId],
-            retention_time: retention_time,
-            settings: set,
-          },
-        }
-      );
-      console.log(response);
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
   // here we are doing countdown before experience starts
   useEffect(() => {
     let interval = null;
@@ -123,7 +91,6 @@ export default function Home() {
     }
     if (sessionCycle > sessionSettings.cycles) {
       setSubtitle("You have completed your session");
-      saveSession(sessionData, sessionSettings);
     }
   }, [sessionCycle]);
 
@@ -201,45 +168,48 @@ export default function Home() {
         sessionData.length;
       setMaxRetention(max);
       setAverageRetention(average);
+      setAveragePercent((average / max) * 100);
     }
   }, [sessionData]);
 
   return (
     <div className={styles.container}>
-      <PageHeader
-        title={title}
-        closeBtn={activeSession}
-        closeFunction={closeSession}
-      />
-
+      <PageHeader title={title} />
       <Container className={styles.main}>
         {!activeSession && (
-          <Center>
-            <Button size="xl" onClick={startSession}>
-              START
+          <Center className={styles.StartButton}>
+            <Button size="xl" onClick={startSession} radius="md">
+              START SESSION
             </Button>
           </Center>
         )}
-
         {activeSession && (
           <>
-            <Container>
+            <Container className={styles.Subtitle}>
               <Title order={3}>{subtitle}</Title>
             </Container>
-            <Container>
+            <Container className={styles.Result}>
               {sessionData.length > 0 && (
                 <>
-                  <Text>Maximum retention time: {maxRetention.toFixed(1)}</Text>
-                  <Text>
-                    Average retention time: {averageRetention.toFixed(1)}
+                  <Container className={styles.Progress}>
+                    <div className={styles.MaxTime}></div>
+                    <div
+                      className={styles.AverTime}
+                      style={{ width: `${averagePercent}%` }}
+                    ></div>
+                  </Container>
+
+                  <Text size="lg">
+                    Average/Maximum: {maxRetention.toFixed(1)}/
+                    {averageRetention.toFixed(1)} s
                   </Text>
                 </>
               )}
 
               {sessionData.map((item, index) => (
                 <>
-                  <Text key={index}>
-                    round {index}: {item}
+                  <Text key={`result${index}`} size="xl">
+                    round {index+1}: {item} s
                   </Text>
                 </>
               ))}
@@ -249,19 +219,49 @@ export default function Home() {
               {breathCount > 0 && <h1>Breath: {breathCount}</h1>}
               {sessionState == 1 && (
                 <>
-                  <Button size="xl" onClick={BreakHold}>
-                    Stop
-                  </Button>
                   <h1>Hold: {retentionTime.toFixed(1)}</h1>
+                  <Center>
+                    <Button
+                      size="xl"
+                      onClick={BreakHold}
+                      radius="md"
+                      className={styles.StopRetention}
+                    >
+                      STOP
+                    </Button>
+                  </Center>
                 </>
               )}
               {holdTime > 0 && <h1>Hold: {holdTime}</h1>}
             </Container>
+            {sessionCycle > sessionSettings.cycles && (
+              <Center>
+                <Button
+                  size="xl"
+                  onClick={() => {
+                    saveSession(
+                      sessionData,
+                      sessionSettings,
+                      averageRetention,
+                      userId
+                    );
+                    closeSession();
+                  }}
+                  radius="md"
+                  className={styles.SaveButton}
+                >
+                  SAVE SESSION
+                </Button>
+              </Center>
+            )}
           </>
         )}
       </Container>
-
-      <Footer />
+      <Footer
+        closeBtn={activeSession}
+        closeFunction={closeSession}
+        className={styles.footer}
+      />
     </div>
   );
 }

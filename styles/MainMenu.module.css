@@ -1,0 +1,33 @@
+.MainMenu {
+    padding: 0.5em;
+    position: absolute;
+    left: 0;
+}
+
+.Button {
+    padding: 0.5em;
+    background: rgba(11, 114, 133, 0.5);
+    round-clip: 0.5em;
+    border-radius: 0.5em;
+}
+.Button:hover {
+    background: rgba(11, 114, 133, 1);
+}
+
+.SvgIcon{
+    width: 32px;
+    height: 32px;
+    color: white;
+}
+
+.CloseButton {
+    padding: 0.5em;
+    position: absolute;
+    right: 1em;
+}
+
+.CloseButton .Button {
+    background: rgba(232, 89, 12, 0.5);
+}.CloseButton .Button:hover {
+    background: rgba(232, 89, 12, 1);
+}

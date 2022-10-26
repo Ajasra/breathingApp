@@ -1,25 +1,19 @@
-import { Container, Grid, Title } from "@mantine/core";
+import { Container, Grid, Title, Center } from "@mantine/core";
 import MainMenu from "@components/UI/MainMenu";
 import CloseButton from "@components/UI/CloseButton";
+
+import styles from "@styles/Header.module.css";
 
 export default function PageHeader(props) {
   const { title, closeBtn, closeFunction } = props;
 
   return (
-    <Container className="PageHeader">
-      <Grid grow>
-        <Grid.Col span={2}>
-          <MainMenu />
-        </Grid.Col>
-        <Grid.Col span={6} className="Title">
-          <Title order={1} align="center">
-            {title}
-          </Title>
-        </Grid.Col>
-        <Grid.Col span={1}>
-          {closeBtn && <CloseButton onClick={closeFunction} />}
-        </Grid.Col>
-      </Grid>
+    <Container className={styles.PageHeader}>
+      <Center>
+        <Title order={1} align="center" color="cyan.8" className={styles.Title}>
+          {title}
+        </Title>
+      </Center>
     </Container>
   );
 }

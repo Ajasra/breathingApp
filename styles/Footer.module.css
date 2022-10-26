@@ -1,0 +1,10 @@
+.Footer {
+    position: absolute;
+    bottom: 0;
+    min-width: 100%;
+}
+
+.Menu {
+    padding-bottom: 5em;
+    position: relative;
+}
