@@ -5,6 +5,7 @@ import PageHeader from "@components/UI/Header";
 import Footer from "@components/UI/Footer";
 import { Container, Center, Button, Title, Text } from "@mantine/core";
 import { saveSession } from "@utils/saveSession";
+import Clock from "@components/UI/Clock";
 
 export default function Home() {
   const [title, setTitle] = useState("BREATH RETENTION");
@@ -16,10 +17,10 @@ export default function Home() {
   const [sessionData, setSessionData] = useState([]);
   const [sessionSettings, setSessionSettings] = useState({
     speed: 30,
-    count: 1,
+    count: 30,
     cycles: 3,
-    countDown: 1,
-    holdTime: 1,
+    countDown: 3,
+    holdTime: 15,
   });
   const [sessionCycle, setSessionCycle] = useState(-1);
   const [sessionState, setSessionState] = useState(-1);
@@ -174,7 +175,7 @@ export default function Home() {
 
   return (
     <div className={styles.container}>
-      <PageHeader title={title} />
+      <PageHeader title={subtitle} />
       <Container className={styles.main}>
         {!activeSession && (
           <Center className={styles.StartButton}>
@@ -185,9 +186,6 @@ export default function Home() {
         )}
         {activeSession && (
           <>
-            <Container className={styles.Subtitle}>
-              <Title order={3}>{subtitle}</Title>
-            </Container>
             <Container className={styles.Result}>
               {sessionData.length > 0 && (
                 <>
@@ -199,27 +197,43 @@ export default function Home() {
                     ></div>
                   </Container>
 
-                  <Text size="lg">
-                    Average/Maximum: {maxRetention.toFixed(1)}/
-                    {averageRetention.toFixed(1)} s
+                  <Text>
+                    Av/Max: <Clock data={maxRetention.toFixed(1)} />/
+                    <Clock data={averageRetention.toFixed(1)}/>s
                   </Text>
                 </>
               )}
 
               {sessionData.map((item, index) => (
                 <>
-                  <Text key={`result${index}`} size="xl">
-                    round {index+1}: {item} s
+                  <Text key={`result${index}`}>
+                    round {index + 1}: <Clock data={item} /> s
                   </Text>
                 </>
               ))}
             </Container>
             <Container>
-              {countDown > 0 && <h1>Start in: {countDown}</h1>}
-              {breathCount > 0 && <h1>Breath: {breathCount}</h1>}
+              {countDown > 0 && (
+                <Center>
+                  <Title order={1} className={styles.CountDown}>
+                    Start in: {countDown}
+                  </Title>
+                </Center>
+              )}
+              {breathCount > 0 && (
+                <Center>
+                  <Title order={1} className={styles.CountDown}>
+                    {breathCount}
+                  </Title>
+                </Center>
+              )}
               {sessionState == 1 && (
                 <>
-                  <h1>Hold: {retentionTime.toFixed(1)}</h1>
+                  <Center>
+                    <Title order={1} className={styles.CountDown}>
+                      <Clock data={retentionTime.toFixed(1)} />
+                    </Title>
+                  </Center>
                   <Center>
                     <Button
                       size="xl"
@@ -232,7 +246,13 @@ export default function Home() {
                   </Center>
                 </>
               )}
-              {holdTime > 0 && <h1>Hold: {holdTime}</h1>}
+              {holdTime > 0 && (
+                <Center>
+                  <Title order={1} className={styles.CountDown}>
+                    <Clock data={holdTime} />
+                  </Title>
+                </Center>
+              )}
             </Container>
             {sessionCycle > sessionSettings.cycles && (
               <Center>
@@ -260,6 +280,8 @@ export default function Home() {
       <Footer
         closeBtn={activeSession}
         closeFunction={closeSession}
+        sessionSettings={sessionSettings}
+        setSessionSettings={setSessionSettings}
         className={styles.footer}
       />
     </div>

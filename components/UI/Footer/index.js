@@ -5,7 +5,7 @@ import CloseButton from "@components/UI/CloseButton";
 import styles from "@styles/Footer.module.css";
 
 export default function Footer(props) {
-  const { closeBtn, closeFunction } = props;
+  const { closeBtn, closeFunction, sessionSettings, setSessionSettings } = props;
 
   return (
     <Container className={styles.Footer}>
@@ -22,7 +22,7 @@ export default function Footer(props) {
       {/*</Text>*/}
 
       <Container className={styles.Menu}>
-        <MainMenu />
+        <MainMenu sessionSettings={sessionSettings} setSessionSettings={setSessionSettings} />
         {closeBtn && <CloseButton onClick={closeFunction} />}
       </Container>
     </Container>

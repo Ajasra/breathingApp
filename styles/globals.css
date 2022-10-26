@@ -15,6 +15,44 @@ a {
   box-sizing: border-box;
 }
 
+.mantine-Modal-body h1,
+.mantine-Modal-body h2,
+.mantine-Modal-body h3 {
+  /*color: darkorange;*/
+}
+.mantine-Modal-modal {
+  min-width: 50%;
+}
+
+.sub-controls {
+  position: absolute;
+  right: 42%;
+  bottom: 1.5em;
+  padding: 24px;
+  color: white;
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+}
+.controls .btn, .sub-controls .btn {
+  background: rgba(255,255,255,.05);
+  padding: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.controls .btn:hover, .sub-controls .btn:hover {
+  background: rgba(255,255,255,.2);
+  color: #000000;
+}
+.controls .btn, .sub-controls .btn {
+  line-height: 1 !important;
+}
+.controls .btn a, .sub-controls .btn a {
+  padding: 0;
+  margin: 0;
+  line-height: 1 !important;
+}
+
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
