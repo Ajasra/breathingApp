@@ -1,4 +1,4 @@
-import {Blockquote, Modal, Title, TypographyStylesProvider, Center, Image, Text, Container, Group, Button} from "@mantine/core";
+import {Blockquote, Modal, Title, TypographyStylesProvider, Center, Text, Container, Group, Button} from "@mantine/core";
 import {Cross1Icon, Link2Icon, TwitterLogoIcon} from "@radix-ui/react-icons";
 
 export default function ModalInfo({infoOpen, setInfoOpen}) {
@@ -22,7 +22,7 @@ export default function ModalInfo({infoOpen, setInfoOpen}) {
           </Blockquote>
 
           <Text size="lg">
-            I am an entropy artist, New Media director of "Sokaris studio,"
+            I am an entropy artist, New Media director of Sokaris studio,
             educator, and Founder of LiaisonDAO (you will hear more about it
             soon). My main area of interest is self-organized systems, such as
             the environment, society, Technium, our body, or any complex object.
@@ -32,18 +32,18 @@ export default function ModalInfo({infoOpen, setInfoOpen}) {
           <Text size="lg">
             My story is relatively short but with an extensive scope of
             experience. With a background in mathematics and computer science, a
-            master's degree in cinema studies. Full-time work as a photographer,
+            masters degree in cinema studies. Full-time work as a photographer,
             developer, designer, and new media artist.
           </Text>
         </TypographyStylesProvider>
         <Container className="controls">
           <Center className="btn">
-            <a href="https://Vasily.onl" target="_blank">
+            <a href="https://Vasily.onl" target="_blank" rel="noreferrer" >
               <Link2Icon className="svg-icon" />
             </a>
           </Center>
           <Center className="btn">
-            <a href="https://twitter.com/Vasily_onl" target="_blank">
+            <a href="https://twitter.com/Vasily_onl" target="_blank" rel="noreferrer" >
               <TwitterLogoIcon className="svg-icon" />
             </a>
           </Center>
