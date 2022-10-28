@@ -9,7 +9,7 @@ import ModalInfo from "@components/UI/Modal/Info";
 export default function MainMenu(props) {
   const { sessionSettings, setSessionSettings } = props;
 
-  const [controlOpen, setControlOpen] = useState(true);
+  const [controlOpen, setControlOpen] = useState(false);
   const [infoOpen, setInfoOpen] = useState(false);
 
   return (
@@ -17,7 +17,7 @@ export default function MainMenu(props) {
       <Group className={styles.MainMenu} spacing="xs">
         <Center className={styles.Button}>
           <Tooltip label="Settings">
-            <GearIcon className={styles.SvgIcon} />
+            <GearIcon className={styles.SvgIcon}  onClick={()=>{setControlOpen(true)}}  />
           </Tooltip>
         </Center>
         <Center className={styles.Button}>

@@ -7,6 +7,10 @@ import { Container, Center, Button, Title, Text } from "@mantine/core";
 import { saveSession } from "@utils/saveSession";
 import Clock from "@components/UI/Clock";
 
+function ScreenWakeLock() {
+  return null;
+}
+
 export default function Home() {
   const [title, setTitle] = useState("BREATH RETENTION");
   const [subtitle, setSubtitle] = useState("");
@@ -186,6 +190,7 @@ export default function Home() {
         )}
         {activeSession && (
           <>
+            <ScreenWakeLock />
             <Container className={styles.Result}>
               {sessionData.length > 0 && (
                 <>

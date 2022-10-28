@@ -19,7 +19,6 @@ export default function ModalControl({
   sessionSettings,
   setSessionSettings,
 }) {
-  console.log({ opened, setOpened, sessionSettings, setSessionSettings });
 
   const [speed, setSpeed] = useState(sessionSettings.speed - 10);
   const [count, setCount] = useState(sessionSettings.count - 30);
@@ -65,6 +64,9 @@ export default function ModalControl({
               { value: 20, label: "30" },
               { value: 30, label: "40" },
               { value: 40, label: "50" },
+              { value: 50, label: "60" },
+              { value: 50, label: "60" },
+              { value: 50, label: "60" },
               { value: 50, label: "60" },
             ]}
           />
