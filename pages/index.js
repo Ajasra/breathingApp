@@ -6,6 +6,7 @@ import Footer from "@components/UI/Footer";
 import { Container, Center, Button, Title, Text } from "@mantine/core";
 import { saveSession } from "@utils/saveSession";
 import Clock from "@components/UI/Clock";
+import {useScreenWakeLock} from "screen-wake-lock";
 
 function ScreenWakeLock() {
   return null;
@@ -177,6 +178,8 @@ export default function Home() {
     }
   }, [sessionData]);
 
+  useScreenWakeLock(true);
+
   return (
     <div className={styles.container}>
       <PageHeader title={subtitle} />
@@ -190,7 +193,6 @@ export default function Home() {
         )}
         {activeSession && (
           <>
-            <ScreenWakeLock />
             <Container className={styles.Result}>
               {sessionData.length > 0 && (
                 <>
