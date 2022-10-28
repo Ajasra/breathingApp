@@ -178,7 +178,7 @@ export default function Home() {
     }
   }, [sessionData]);
 
-  useScreenWakeLock(true);
+  useScreenWakeLock();
 
   return (
     <div className={styles.container}>

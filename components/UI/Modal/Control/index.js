@@ -19,14 +19,13 @@ export default function ModalControl({
   sessionSettings,
   setSessionSettings,
 }) {
-
   const [speed, setSpeed] = useState(sessionSettings.speed - 10);
   const [count, setCount] = useState(sessionSettings.count - 30);
   const [cycles, setCycles] = useState(sessionSettings.cycles - 1);
 
   function saveSettings() {
     setSessionSettings({
-      speed: speed + 10,
+      speed: speed + 20,
       count: count + 30,
       cycles: cycles + 1,
       countDown: 3,
@@ -45,33 +44,33 @@ export default function ModalControl({
         size="xl"
       >
         <Container>
-          <Title order={1}>Settings</Title>
+          <Title order={1}  color="cyan.7">Settings</Title>
           <br />
-          <Text size="lg">Breath rate (per minute)</Text>
+          <Text size="lg" color="cyan.7" >Breath rate (per minute)</Text>
+          <Text>Adjust to the speed of your breath.</Text>
           <Slider
             size="xl"
             radius="xl"
             min={0}
-            max={50}
-            label={(value) => `${value + 10}`}
+            max={100}
+            label={(value) => `${value + 20}`}
             step={1}
             // defaultValue={sessionSettings.speed - 10}
             value={speed}
             onChange={setSpeed}
             marks={[
-              { value: 0, label: "10" },
-              { value: 10, label: "20" },
-              { value: 20, label: "30" },
-              { value: 30, label: "40" },
-              { value: 40, label: "50" },
-              { value: 50, label: "60" },
-              { value: 50, label: "60" },
-              { value: 50, label: "60" },
-              { value: 50, label: "60" },
+              { value: 0, label: "20" },
+              { value: 20, label: "40" },
+              { value: 40, label: "60" },
+              { value: 60, label: "80" },
+              { value: 80, label: "100" },
+              { value: 100, label: "120" },
             ]}
           />
           <br />
-          <Text size="lg">Breath count</Text>
+          <br />
+          <Text size="lg" color="cyan.7">Breath count</Text>
+          <Text>Number of breath before holding breath.</Text>
           <Slider
             size="xl"
             radius="xl"
@@ -90,7 +89,9 @@ export default function ModalControl({
             ]}
           />
           <br />
-          <Text size="lg">Cycles</Text>
+          <br />
+          <Text size="lg" color="cyan.7">Rounds</Text>
+          <Text>How many rounds you want in the session.</Text>
           <Slider
             size="xl"
             radius="xl"
