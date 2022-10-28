@@ -249,7 +249,7 @@ export default function Home() {
               {holdTime > 0 && (
                 <Center>
                   <Title order={1} className={styles.CountDown}>
-                    <Clock data={holdTime} />
+                    {holdTime}
                   </Title>
                 </Center>
               )}
