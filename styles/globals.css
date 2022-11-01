@@ -37,7 +37,7 @@ a {
 .controls {
   position: absolute;
   top: 1em;
-  right: 0em;
+  right: 0;
 }
 .controls .btn, .sub-controls .btn {
   background: rgba(255,255,255,.05);
@@ -63,14 +63,4 @@ a {
 .controls .btn svg {
   width: 1.5em;
   height: 1.5em;
-}
-
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
-  body {
-    color: white;
-    background: black;
-  }
 }

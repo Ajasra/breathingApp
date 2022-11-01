@@ -7,14 +7,8 @@ import { Container, Center, Button, Title, Text } from "@mantine/core";
 import { saveSession } from "@utils/saveSession";
 import Clock from "@components/UI/Clock";
 import { useScreenWakeLock } from "screen-wake-lock";
-import { withToast } from "@utils/toast";
-
-function ScreenWakeLock() {
-  return null;
-}
 
 export default function Home() {
-  const [title, setTitle] = useState("BREATH RETENTION");
   const [subtitle, setSubtitle] = useState("");
 
   const [userId, setUserId] = useState(1);

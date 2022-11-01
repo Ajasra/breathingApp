@@ -1,5 +1,4 @@
 import axios from "axios";
-import {toast} from "react-toastify";
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 const apiActive = process.env.NEXT_PUBLIC_API_ACTIVE;
@@ -23,6 +22,7 @@ const apiActive = process.env.NEXT_PUBLIC_API_ACTIVE;
                     },
                 }
             );
+            console.log(response);
             // toast.success("Session saved", { closeButton: true, autoClose: 15000 });
         } catch (e) {
             console.log(e);

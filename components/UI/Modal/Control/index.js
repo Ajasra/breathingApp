@@ -1,5 +1,4 @@
 import {
-  Blockquote,
   Button,
   Center,
   Container,
@@ -8,11 +7,9 @@ import {
   Slider,
   Text,
   Title,
-  TypographyStylesProvider,
 } from "@mantine/core";
-import { Cross1Icon, Link2Icon, TwitterLogoIcon } from "@radix-ui/react-icons";
+import { Cross1Icon } from "@radix-ui/react-icons";
 import { useState } from "react";
-import {toast} from "react-toastify";
 
 export default function ModalControl({
   opened,
@@ -32,7 +29,7 @@ export default function ModalControl({
       countDown: 3,
       holdTime: 15,
     });
-      // toast.success("Settings saved", { closeButton: true, autoClose: 5000 });
+    // toast.success("Settings saved", { closeButton: true, autoClose: 5000 });
   }
 
   return (
@@ -46,9 +43,13 @@ export default function ModalControl({
         size="xl"
       >
         <Container>
-          <Title order={1}  color="cyan.7">Settings</Title>
+          <Title order={1} color="cyan.7">
+            Settings
+          </Title>
           <br />
-          <Text size="lg" color="cyan.7" >Breath rate (per minute)</Text>
+          <Text size="lg" color="cyan.7">
+            Breath rate (per minute)
+          </Text>
           <Text>Adjust to the speed of your breath.</Text>
           <Slider
             size="xl"
@@ -73,7 +74,9 @@ export default function ModalControl({
           />
           <br />
           <br />
-          <Text size="lg" color="cyan.7">Breath count</Text>
+          <Text size="lg" color="cyan.7">
+            Breath count
+          </Text>
           <Text>Number of breath before holding breath.</Text>
           <Slider
             size="xl"
@@ -94,7 +97,9 @@ export default function ModalControl({
           />
           <br />
           <br />
-          <Text size="lg" color="cyan.7">Rounds</Text>
+          <Text size="lg" color="cyan.7">
+            Rounds
+          </Text>
           <Text>How many rounds you want in the session.</Text>
           <Slider
             size="xl"

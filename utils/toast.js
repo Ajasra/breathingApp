@@ -1,5 +1,4 @@
 import { toast } from "react-toastify";
-import { Text } from "@mantine/core";
 
 export const withToast = (promise) => {
   toast.promise(
