@@ -12,6 +12,7 @@ import {
 } from "@mantine/core";
 import { Cross1Icon, Link2Icon, TwitterLogoIcon } from "@radix-ui/react-icons";
 import { useState } from "react";
+import {toast} from "react-toastify";
 
 export default function ModalControl({
   opened,
@@ -25,12 +26,13 @@ export default function ModalControl({
 
   function saveSettings() {
     setSessionSettings({
-      speed: speed + 20,
+      speed: speed + 10,
       count: count + 30,
       cycles: cycles + 1,
       countDown: 3,
       holdTime: 15,
     });
+      toast.success("Settings saved", { closeButton: true, autoClose: 15000 });
   }
 
   return (
@@ -52,19 +54,21 @@ export default function ModalControl({
             size="xl"
             radius="xl"
             min={0}
-            max={100}
-            label={(value) => `${value + 20}`}
+            max={70}
+            label={(value) => `${value + 10}`}
             step={1}
             // defaultValue={sessionSettings.speed - 10}
             value={speed}
             onChange={setSpeed}
             marks={[
-              { value: 0, label: "20" },
-              { value: 20, label: "40" },
-              { value: 40, label: "60" },
-              { value: 60, label: "80" },
-              { value: 80, label: "100" },
-              { value: 100, label: "120" },
+              { value: 0, label: "10" },
+              { value: 10, label: "20" },
+              { value: 20, label: "30" },
+              { value: 30, label: "40" },
+              { value: 40, label: "50" },
+              { value: 50, label: "60" },
+              { value: 60, label: "70" },
+              { value: 70, label: "80" },
             ]}
           />
           <br />

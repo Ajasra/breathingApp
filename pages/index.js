@@ -6,7 +6,8 @@ import Footer from "@components/UI/Footer";
 import { Container, Center, Button, Title, Text } from "@mantine/core";
 import { saveSession } from "@utils/saveSession";
 import Clock from "@components/UI/Clock";
-import {useScreenWakeLock} from "screen-wake-lock";
+import { useScreenWakeLock } from "screen-wake-lock";
+import { withToast } from "@utils/toast";
 
 function ScreenWakeLock() {
   return null;
@@ -204,20 +205,36 @@ export default function Home() {
                     ></div>
                   </Container>
 
+                  <Text
+                    style={{ position: "absolute", right: "1em", top: "-2em" }}
+                  >
+                    <Clock data={maxRetention.toFixed(1)} />
+                  </Text>
+                  {sessionData.length > 1 && (
+                    <Text
+                      style={{
+                        position: "absolute",
+                        left: `${averagePercent - 5}%`,
+                        top: "-2em",
+                      }}
+                    >
+                      <Clock data={averageRetention.toFixed(1)} />
+                    </Text>
+                  )}
                   <Text>
-                    Av/Max: <Clock data={maxRetention.toFixed(1)} />/
-                    <Clock data={averageRetention.toFixed(1)}/>s
+                    {" "}
+                    Retention time: <br />
+                    {sessionData.map((item, index) => (
+                      <>
+                        <span key={`result${index}`} className={styles.colored}>
+                          <Clock data={item} />
+                        </span>
+                        {index == sessionData.length - 1 ? " " : " | "}
+                      </>
+                    ))}
                   </Text>
                 </>
               )}
-
-              {sessionData.map((item, index) => (
-                <>
-                  <Text key={`result${index}`}>
-                    round {index + 1}: <Clock data={item} /> s
-                  </Text>
-                </>
-              ))}
             </Container>
             <Container>
               {countDown > 0 && (
