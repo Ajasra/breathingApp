@@ -1,4 +1,5 @@
 import axios from "axios";
+import {toast} from "react-toastify";
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 const apiActive = process.env.NEXT_PUBLIC_API_ACTIVE;
@@ -22,9 +23,10 @@ const apiActive = process.env.NEXT_PUBLIC_API_ACTIVE;
                     },
                 }
             );
-            console.log(response);
-        } catch (error) {
-            console.log(error);
+            toast.success("Session saved", { closeButton: true, autoClose: 15000 });
+        } catch (e) {
+            console.log(e);
+            toast.error("No image selected", { closeButton: true, autoClose: 15000 });
         }
     }else{
         console.log('API disabled')
