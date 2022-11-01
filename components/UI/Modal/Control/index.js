@@ -32,7 +32,7 @@ export default function ModalControl({
       countDown: 3,
       holdTime: 15,
     });
-      toast.success("Settings saved", { closeButton: true, autoClose: 15000 });
+      // toast.success("Settings saved", { closeButton: true, autoClose: 5000 });
   }
 
   return (

@@ -23,10 +23,10 @@ const apiActive = process.env.NEXT_PUBLIC_API_ACTIVE;
                     },
                 }
             );
-            toast.success("Session saved", { closeButton: true, autoClose: 15000 });
+            // toast.success("Session saved", { closeButton: true, autoClose: 15000 });
         } catch (e) {
             console.log(e);
-            toast.error("No image selected", { closeButton: true, autoClose: 15000 });
+            // toast.error("No image selected", { closeButton: true, autoClose: 15000 });
         }
     }else{
         console.log('API disabled')
