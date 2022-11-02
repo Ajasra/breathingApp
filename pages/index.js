@@ -4,7 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import PageHeader from "@components/UI/Header";
 import Footer from "@components/UI/Footer";
 import { Container, Center, Button, Title, Text } from "@mantine/core";
-import { SaveSession } from "@utils/api";
+import { GetSettings, SaveSession } from "@utils/api";
 import Clock from "@components/UI/Clock";
 import { useScreenWakeLock } from "screen-wake-lock";
 import { UserContext } from "@components/User/UserContext";
@@ -17,6 +17,7 @@ export default function Home(props) {
   const [activeSession, setActiveSession] = useState(false);
   const [sessionData, setSessionData] = useState([]);
   const [sessionSettings, setSessionSettings] = useState({
+    settingsId: null,
     speed: 30,
     count: 30,
     cycles: 3,
@@ -37,6 +38,17 @@ export default function Home(props) {
   useEffect(() => {
     closeSession();
   }, []);
+
+  useEffect(() => {
+    async function getSettings() {
+      const settings = await GetSettings(userDetails.userId, setSessionSettings)
+    }
+    if (userDetails) {
+      getSettings();
+    }
+  }, [userDetails]);
+
+  console.log(sessionSettings);
 
   function startSession() {
     setActiveSession(true);

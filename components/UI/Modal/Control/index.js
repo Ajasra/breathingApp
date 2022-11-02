@@ -9,7 +9,9 @@ import {
   Title,
 } from "@mantine/core";
 import { Cross1Icon } from "@radix-ui/react-icons";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { SaveSettings } from "@utils/api";
+import { UserContext } from "@components/User/UserContext";
 
 export default function ModalControl({
   opened,
@@ -21,16 +23,27 @@ export default function ModalControl({
   const [count, setCount] = useState(sessionSettings.count - 30);
   const [cycles, setCycles] = useState(sessionSettings.cycles - 1);
 
+  const userDetails = useContext(UserContext);
+
   function saveSettings() {
     setSessionSettings({
+      settingsId: sessionSettings.settingsId,
       speed: speed + 10,
       count: count + 30,
       cycles: cycles + 1,
       countDown: 3,
       holdTime: 15,
     });
+
+    SaveSettings(sessionSettings, userDetails.userId, setSessionSettings);
     // toast.success("Settings saved", { closeButton: true, autoClose: 5000 });
   }
+
+  useEffect(() => {
+    setSpeed(sessionSettings.speed - 10);
+    setCount(sessionSettings.count - 30);
+    setCycles(sessionSettings.cycles - 1);
+  }, [sessionSettings]);
 
   return (
     <>
