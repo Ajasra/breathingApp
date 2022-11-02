@@ -1,17 +1,18 @@
 import styles from "../styles/Home.module.css";
 
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import PageHeader from "@components/UI/Header";
 import Footer from "@components/UI/Footer";
 import { Container, Center, Button, Title, Text } from "@mantine/core";
-import { saveSession } from "@utils/saveSession";
+import { SaveSession } from "@utils/api";
 import Clock from "@components/UI/Clock";
 import { useScreenWakeLock } from "screen-wake-lock";
+import { UserContext } from "@components/User/UserContext";
 
-export default function Home() {
+export default function Home(props) {
   const [subtitle, setSubtitle] = useState("");
 
-  const [userId, setUserId] = useState(1);
+  const userDetails = useContext(UserContext);
 
   const [activeSession, setActiveSession] = useState(false);
   const [sessionData, setSessionData] = useState([]);
@@ -277,12 +278,14 @@ export default function Home() {
                 <Button
                   size="xl"
                   onClick={() => {
-                    saveSession(
-                      sessionData,
-                      sessionSettings,
-                      averageRetention,
-                      userId
-                    );
+                    if (userDetails.userId != null) {
+                      SaveSession(
+                        sessionData,
+                        sessionSettings,
+                        averageRetention,
+                        userDetails.userId
+                      );
+                    }
                     closeSession();
                   }}
                   radius="md"
