@@ -11,6 +11,7 @@ import { UserContext } from "@components/User/UserContext";
 
 export default function Home(props) {
   const [subtitle, setSubtitle] = useState("");
+  const [audio, setAudio] = useState(null);
 
   const userDetails = useContext(UserContext);
 
@@ -37,11 +38,18 @@ export default function Home(props) {
 
   useEffect(() => {
     closeSession();
+    setAudio(new Audio("../assets/sound/bell.mp3"));
+    if(audio != null) {
+        audio.load();
+    }
   }, []);
 
   useEffect(() => {
     async function getSettings() {
-      const settings = await GetSettings(userDetails.userId, setSessionSettings)
+      const settings = await GetSettings(
+        userDetails.userId,
+        setSessionSettings
+      );
     }
     if (userDetails) {
       getSettings();
@@ -142,7 +150,10 @@ export default function Home(props) {
     } else {
       clearInterval(interval);
     }
-    if (breathCount == 0) setSessionState(1);
+    if (breathCount == 0) {
+      setSessionState(1);
+      audio.play();
+    }
     return () => clearInterval(interval);
   }, [breathCount]);
 
@@ -169,7 +180,10 @@ export default function Home(props) {
     } else {
       clearInterval(interval);
     }
-    if (holdTime == 0) setSessionCycle(sessionCycle + 1);
+    if (holdTime == 0) {
+      setSessionCycle(sessionCycle + 1);
+      audio.play();
+    }
     return () => clearInterval(interval);
   }, [holdTime]);
 

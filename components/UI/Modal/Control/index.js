@@ -35,7 +35,10 @@ export default function ModalControl({
       holdTime: 15,
     });
 
-    SaveSettings(sessionSettings, userDetails.userId, setSessionSettings);
+    if(userDetails) {
+        SaveSettings(sessionSettings, userDetails.userId, setSessionSettings);
+    }
+    setOpened(false);
     // toast.success("Settings saved", { closeButton: true, autoClose: 5000 });
   }
 
