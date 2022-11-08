@@ -11,7 +11,9 @@ import { UserContext } from "@components/User/UserContext";
 
 export default function Home(props) {
   const [subtitle, setSubtitle] = useState("");
-  const [audio, setAudio] = useState(null);
+
+  const [bell, setBell] = useState(null);
+  const [notify, setNotify] = useState(null);
 
   const userDetails = useContext(UserContext);
 
@@ -38,12 +40,20 @@ export default function Home(props) {
 
   useEffect(() => {
     closeSession();
-    setAudio(new Audio("../assets/sound/bell.mp3"));
-    if(audio != null) {
-        audio.load();
+    setBell(new Audio("../assets/sound/bell.mp3"));
+    setNotify(new Audio("../assets/sound/30s.mp3"));
+    if (bell != null) {
+      bell.load();
+    }
+    if (notify != null) {
+      notify.volume = 0;
+      notify.load();
+      notify.loop = false;
+      notify.pause();
     }
   }, []);
 
+  // Update user details when user changes
   useEffect(() => {
     async function getSettings() {
       const settings = await GetSettings(
@@ -56,8 +66,7 @@ export default function Home(props) {
     }
   }, [userDetails]);
 
-  console.log(sessionSettings);
-
+  //reset session on start
   function startSession() {
     setActiveSession(true);
     setSubtitle("Get ready to start your breathing session");
@@ -71,6 +80,7 @@ export default function Home(props) {
     setMaxRetention(0);
   }
 
+  //close session on end
   function closeSession() {
     setActiveSession(false);
     setCountDown(sessionSettings.countDown);
@@ -81,6 +91,7 @@ export default function Home(props) {
     setHoldTime(-1);
   }
 
+  //stop retention timer
   function BreakHold() {
     AddResult();
     setSessionState(2);
@@ -152,7 +163,7 @@ export default function Home(props) {
     }
     if (breathCount == 0) {
       setSessionState(1);
-      audio.play();
+      bell.play();
     }
     return () => clearInterval(interval);
   }, [breathCount]);
@@ -162,8 +173,12 @@ export default function Home(props) {
     let interval = null;
     if (retentionTime >= 0 && sessionState == 1) {
       interval = setInterval(() => {
-        setRetentionTime(retentionTime + 0.1);
-      }, 100);
+        setRetentionTime(retentionTime + 1);
+      }, 1000);
+      if (retentionTime % 30 == 0) {
+        notify.volume = 0.2;
+        notify.play(); //play sound every 30s
+      }
     } else {
       clearInterval(interval);
     }
@@ -182,7 +197,7 @@ export default function Home(props) {
     }
     if (holdTime == 0) {
       setSessionCycle(sessionCycle + 1);
-      audio.play();
+      bell.play();
     }
     return () => clearInterval(interval);
   }, [holdTime]);
@@ -194,9 +209,10 @@ export default function Home(props) {
       let average =
         sessionData.reduce((a, b) => parseFloat(a) + parseFloat(b), 0) /
         sessionData.length;
+      const startOffset = average * 0.5;
       setMaxRetention(max);
       setAverageRetention(average);
-      setAveragePercent((average / max) * 100);
+      setAveragePercent(((average - startOffset) / max) * 100);
     }
   }, [sessionData]);
 
@@ -304,7 +320,7 @@ export default function Home(props) {
                 <Button
                   size="xl"
                   onClick={() => {
-                    if (userDetails.userId != null) {
+                    if (userDetails != null) {
                       SaveSession(
                         sessionData,
                         sessionSettings,

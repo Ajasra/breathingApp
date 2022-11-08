@@ -24,9 +24,6 @@ export default function ModalInfo({ infoOpen, setInfoOpen }) {
       >
         <TypographyStylesProvider>
           <Title order={1}  color="cyan.7">About</Title>
-          <Blockquote className="list_notify">
-            Symbiosis with entropy and uncertainty to create.
-          </Blockquote>
 
           <Text size="lg">
             This simple app was created first of all for a personal use based on
