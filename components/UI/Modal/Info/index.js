@@ -73,8 +73,6 @@ export default function ModalInfo({ infoOpen, setInfoOpen }) {
           <br/>
           <Title order={3}>Roadmap</Title>
           <List>
-            <List.Item>User registration (to keep data personalized).</List.Item>
-            <List.Item>Add sound so no need to look at screen all time.</List.Item>
             <List.Item>Dashboard and statistics for recorded sessions and settings (correlation how different settings affect result).</List.Item>
             <List.Item>Add heartbeat record (manual, need to see how it will better represent actual data)</List.Item>
           </List>
