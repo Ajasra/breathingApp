@@ -1,13 +1,13 @@
 .container {
   padding: 1rem 1rem;
-  min-height: 100vh;
+  min-height: 90vh;
   position: relative;
+  overflow: hidden;
 }
 
 .main {
   height: 70vh;
 }
-
 
 .StartButton {
   min-width: 100%;
@@ -25,15 +25,17 @@
 }
 
 .StopRetention {
-    margin-top: 0;
-    color: #fff;
-    height: 4em;
-    width: 90%;
+  margin-top: 0;
+  color: #fff;
+  height: 4em;
+  width: 90%;
   font-size: 2em;
 }
 
 .Result {
-  height: 12em;
+  height: 6em;
+  position: relative;
+  margin-top: 2em;
 }
 
 .Progress {
@@ -41,22 +43,22 @@
   height: 1.5em;
   position: relative;
   padding: 0;
-  margin-bottom: .5em;
+  margin-bottom: 0.5em;
 }
 
 .MaxTime {
   width: 100%;
   height: 1.2em;
   background: rgba(11, 114, 133, 0.5);
-  border-radius: .4em;
+  border-radius: 0.4em;
   position: absolute;
-  top: .15em;
+  top: 0.15em;
 }
 .AverTime {
   width: 50%;
   height: 1.5em;
   background: rgba(11, 114, 133, 0.7);
-  border-radius: .4em;
+  border-radius: 0.4em;
   position: absolute;
 }
 
@@ -64,8 +66,9 @@
   font-size: 3em;
 }
 
-
-
+.colored {
+  color: rgb(11, 114, 133);
+}
 
 .title {
   margin: 0;

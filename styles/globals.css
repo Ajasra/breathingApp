@@ -34,11 +34,18 @@ a {
   align-items: flex-end;
   gap: 12px;
 }
+.controls {
+  position: absolute;
+  top: 1em;
+  right: 0;
+}
 .controls .btn, .sub-controls .btn {
   background: rgba(255,255,255,.05);
   padding: 8px;
   border-radius: 8px;
   cursor: pointer;
+  float: left;
+  margin-left: 8px;
 }
 .controls .btn:hover, .sub-controls .btn:hover {
   background: rgba(255,255,255,.2);
@@ -53,12 +60,7 @@ a {
   line-height: 1 !important;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
-  body {
-    color: white;
-    background: black;
-  }
+.controls .btn svg {
+  width: 1.5em;
+  height: 1.5em;
 }

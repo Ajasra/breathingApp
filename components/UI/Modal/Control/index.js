@@ -1,5 +1,4 @@
 import {
-  Blockquote,
   Button,
   Center,
   Container,
@@ -8,10 +7,11 @@ import {
   Slider,
   Text,
   Title,
-  TypographyStylesProvider,
 } from "@mantine/core";
-import { Cross1Icon, Link2Icon, TwitterLogoIcon } from "@radix-ui/react-icons";
-import { useState } from "react";
+import { Cross1Icon } from "@radix-ui/react-icons";
+import { useContext, useEffect, useState } from "react";
+import { SaveSettings } from "@utils/api";
+import { UserContext } from "@components/User/UserContext";
 
 export default function ModalControl({
   opened,
@@ -19,21 +19,34 @@ export default function ModalControl({
   sessionSettings,
   setSessionSettings,
 }) {
-  console.log({ opened, setOpened, sessionSettings, setSessionSettings });
-
   const [speed, setSpeed] = useState(sessionSettings.speed - 10);
   const [count, setCount] = useState(sessionSettings.count - 30);
   const [cycles, setCycles] = useState(sessionSettings.cycles - 1);
 
+  const userDetails = useContext(UserContext);
+
   function saveSettings() {
     setSessionSettings({
+      settingsId: sessionSettings.settingsId,
       speed: speed + 10,
       count: count + 30,
       cycles: cycles + 1,
       countDown: 3,
       holdTime: 15,
     });
+
+    if(userDetails) {
+        SaveSettings(sessionSettings, userDetails.userId, setSessionSettings);
+    }
+    setOpened(false);
+    // toast.success("Settings saved", { closeButton: true, autoClose: 5000 });
   }
+
+  useEffect(() => {
+    setSpeed(sessionSettings.speed - 10);
+    setCount(sessionSettings.count - 30);
+    setCycles(sessionSettings.cycles - 1);
+  }, [sessionSettings]);
 
   return (
     <>
@@ -46,14 +59,19 @@ export default function ModalControl({
         size="xl"
       >
         <Container>
-          <Title order={1}>Settings</Title>
+          <Title order={1} color="cyan.7">
+            Settings
+          </Title>
           <br />
-          <Text size="lg">Breath rate (per minute)</Text>
+          <Text size="lg" color="cyan.7">
+            Breath rate (per minute)
+          </Text>
+          <Text>Adjust to the speed of your breath.</Text>
           <Slider
             size="xl"
             radius="xl"
             min={0}
-            max={50}
+            max={70}
             label={(value) => `${value + 10}`}
             step={1}
             // defaultValue={sessionSettings.speed - 10}
@@ -66,10 +84,16 @@ export default function ModalControl({
               { value: 30, label: "40" },
               { value: 40, label: "50" },
               { value: 50, label: "60" },
+              { value: 60, label: "70" },
+              { value: 70, label: "80" },
             ]}
           />
           <br />
-          <Text size="lg">Breath count</Text>
+          <br />
+          <Text size="lg" color="cyan.7">
+            Breath count
+          </Text>
+          <Text>Number of breath before holding breath.</Text>
           <Slider
             size="xl"
             radius="xl"
@@ -88,7 +112,11 @@ export default function ModalControl({
             ]}
           />
           <br />
-          <Text size="lg">Cycles</Text>
+          <br />
+          <Text size="lg" color="cyan.7">
+            Rounds
+          </Text>
+          <Text>How many rounds you want in the session.</Text>
           <Slider
             size="xl"
             radius="xl"

@@ -1,21 +1,26 @@
 import styles from "../styles/Home.module.css";
 
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import PageHeader from "@components/UI/Header";
 import Footer from "@components/UI/Footer";
 import { Container, Center, Button, Title, Text } from "@mantine/core";
-import { saveSession } from "@utils/saveSession";
+import { GetSettings, SaveSession } from "@utils/api";
 import Clock from "@components/UI/Clock";
+import { useScreenWakeLock } from "screen-wake-lock";
+import { UserContext } from "@components/User/UserContext";
 
-export default function Home() {
-  const [title, setTitle] = useState("BREATH RETENTION");
+export default function Home(props) {
   const [subtitle, setSubtitle] = useState("");
 
-  const [userId, setUserId] = useState(1);
+  const [bell, setBell] = useState(null);
+  const [notify, setNotify] = useState(null);
+
+  const userDetails = useContext(UserContext);
 
   const [activeSession, setActiveSession] = useState(false);
   const [sessionData, setSessionData] = useState([]);
   const [sessionSettings, setSessionSettings] = useState({
+    settingsId: null,
     speed: 30,
     count: 30,
     cycles: 3,
@@ -35,8 +40,33 @@ export default function Home() {
 
   useEffect(() => {
     closeSession();
+    setBell(new Audio("../assets/sound/bell.mp3"));
+    setNotify(new Audio("../assets/sound/30s.mp3"));
+    if (bell != null) {
+      bell.load();
+    }
+    if (notify != null) {
+      notify.volume = 0;
+      notify.load();
+      notify.loop = false;
+      notify.pause();
+    }
   }, []);
 
+  // Update user details when user changes
+  useEffect(() => {
+    async function getSettings() {
+      const settings = await GetSettings(
+        userDetails.userId,
+        setSessionSettings
+      );
+    }
+    if (userDetails) {
+      getSettings();
+    }
+  }, [userDetails]);
+
+  //reset session on start
   function startSession() {
     setActiveSession(true);
     setSubtitle("Get ready to start your breathing session");
@@ -50,6 +80,7 @@ export default function Home() {
     setMaxRetention(0);
   }
 
+  //close session on end
   function closeSession() {
     setActiveSession(false);
     setCountDown(sessionSettings.countDown);
@@ -60,6 +91,7 @@ export default function Home() {
     setHoldTime(-1);
   }
 
+  //stop retention timer
   function BreakHold() {
     AddResult();
     setSessionState(2);
@@ -129,7 +161,10 @@ export default function Home() {
     } else {
       clearInterval(interval);
     }
-    if (breathCount == 0) setSessionState(1);
+    if (breathCount == 0) {
+      setSessionState(1);
+      bell.play();
+    }
     return () => clearInterval(interval);
   }, [breathCount]);
 
@@ -138,8 +173,12 @@ export default function Home() {
     let interval = null;
     if (retentionTime >= 0 && sessionState == 1) {
       interval = setInterval(() => {
-        setRetentionTime(retentionTime + 0.1);
-      }, 100);
+        setRetentionTime(retentionTime + 1);
+      }, 1000);
+      if (retentionTime % 30 == 0) {
+        notify.volume = 0.2;
+        notify.play(); //play sound every 30s
+      }
     } else {
       clearInterval(interval);
     }
@@ -156,7 +195,10 @@ export default function Home() {
     } else {
       clearInterval(interval);
     }
-    if (holdTime == 0) setSessionCycle(sessionCycle + 1);
+    if (holdTime == 0) {
+      setSessionCycle(sessionCycle + 1);
+      bell.play();
+    }
     return () => clearInterval(interval);
   }, [holdTime]);
 
@@ -167,11 +209,14 @@ export default function Home() {
       let average =
         sessionData.reduce((a, b) => parseFloat(a) + parseFloat(b), 0) /
         sessionData.length;
+      const startOffset = average * 0.5;
       setMaxRetention(max);
       setAverageRetention(average);
-      setAveragePercent((average / max) * 100);
+      setAveragePercent(((average - startOffset) / max) * 100);
     }
   }, [sessionData]);
+
+  useScreenWakeLock();
 
   return (
     <div className={styles.container}>
@@ -197,20 +242,36 @@ export default function Home() {
                     ></div>
                   </Container>
 
+                  <Text
+                    style={{ position: "absolute", right: "1em", top: "-2em" }}
+                  >
+                    <Clock data={maxRetention.toFixed(1)} />
+                  </Text>
+                  {sessionData.length > 1 && (
+                    <Text
+                      style={{
+                        position: "absolute",
+                        left: `${averagePercent - 5}%`,
+                        top: "-2em",
+                      }}
+                    >
+                      <Clock data={averageRetention.toFixed(1)} />
+                    </Text>
+                  )}
                   <Text>
-                    Av/Max: <Clock data={maxRetention.toFixed(1)} />/
-                    <Clock data={averageRetention.toFixed(1)}/>s
+                    {" "}
+                    Retention time: <br />
+                    {sessionData.map((item, index) => (
+                      <>
+                        <span key={`result${index}`} className={styles.colored}>
+                          <Clock data={item} />
+                        </span>
+                        {index == sessionData.length - 1 ? " " : " | "}
+                      </>
+                    ))}
                   </Text>
                 </>
               )}
-
-              {sessionData.map((item, index) => (
-                <>
-                  <Text key={`result${index}`}>
-                    round {index + 1}: <Clock data={item} /> s
-                  </Text>
-                </>
-              ))}
             </Container>
             <Container>
               {countDown > 0 && (
@@ -259,12 +320,14 @@ export default function Home() {
                 <Button
                   size="xl"
                   onClick={() => {
-                    saveSession(
-                      sessionData,
-                      sessionSettings,
-                      averageRetention,
-                      userId
-                    );
+                    if (userDetails != null) {
+                      SaveSession(
+                        sessionData,
+                        sessionSettings,
+                        averageRetention,
+                        userDetails.userId
+                      );
+                    }
                     closeSession();
                   }}
                   radius="md"
