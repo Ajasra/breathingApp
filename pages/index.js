@@ -19,7 +19,9 @@ export default function Home(props) {
 
   const [activeSession, setActiveSession] = useState(false);
   const [sessionData, setSessionData] = useState([]);
+
   const [sessionSettings, setSessionSettings] = useState({
+    init: false,
     settingsId: null,
     speed: 30,
     count: 30,
@@ -27,6 +29,7 @@ export default function Home(props) {
     countDown: 3,
     holdTime: 15,
   });
+
   const [sessionCycle, setSessionCycle] = useState(-1);
   const [sessionState, setSessionState] = useState(-1);
   const [breathCount, setBreathCount] = useState(-1);
@@ -51,6 +54,7 @@ export default function Home(props) {
       notify.loop = false;
       notify.pause();
     }
+
   }, []);
 
   // Update user details when user changes

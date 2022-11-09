@@ -1,5 +1,4 @@
 import {createContext, useEffect, useState} from "react";
-import {GetSettings} from "@utils/api";
 
 const UserContext = createContext(undefined);
 const UserDispatchContext = createContext(undefined);

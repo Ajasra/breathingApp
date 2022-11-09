@@ -45,6 +45,7 @@ export function GetSettings(userId, setSessionSettings) {
           if (settingsData.length > 0) {
             let savedSettings = JSON.parse(settingsData[0].attributes.setting);
             savedSettings.settingsId = settingsData[0].id;
+            savedSettings.init = true;
             setSessionSettings(savedSettings);
           }
         });
