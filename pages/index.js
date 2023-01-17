@@ -44,12 +44,14 @@ export default function Home(props) {
     setNotify(new Audio("../assets/sound/30s.mp3"));
     if (bell != null) {
       bell.load();
+      bell.loop = false;
+      bell.stop();
     }
     if (notify != null) {
       notify.volume = 0;
       notify.load();
       notify.loop = false;
-      notify.pause();
+      notify.stop();
     }
   }, []);
 

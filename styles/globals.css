@@ -64,3 +64,20 @@ a {
   width: 1.5em;
   height: 1.5em;
 }
+
+
+
+#chart .tr-bg-white  {
+  background-color: #111111;
+}
+
+#chart  .tr-ring-gray-200 {
+  --tw-ring-color: rgb(50 60 70 / var(--tw-ring-opacity));
+}
+
+@media (max-width: 600px) {
+  #chart {
+    width: 120%;
+    margin-left: -2.5em;
+  }
+}
