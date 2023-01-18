@@ -96,7 +96,7 @@ export function SaveSettings(settings, userId, setSessionSettings) {
           },
         })
         .then((res) => {
-          console.log(res);
+          // console.log(res);
         });
     } catch (e) {
       console.log(e);
@@ -104,12 +104,30 @@ export function SaveSettings(settings, userId, setSessionSettings) {
   }
 }
 
-export function GetSessions(userId, setSessions) {
+export function GetSessions(userId, setSessions, dates) {
   if (apiActive) {
+    let endDate, startDate;
+
+    if (dates[0] == undefined) {
+      endDate = new Date(new Date().setDate(new Date().getDate() + 1))
+        .toISOString()
+        .split("T")[0];
+      startDate = new Date(new Date().setMonth(new Date().getMonth() - 1))
+        .toISOString()
+        .split("T")[0];
+    } else {
+      // convert Wed Jan 11 2023 00:00:00 GMT+0800 (China Standard Time) to 2023-01-11
+      // and add one day to the end date
+      let end = new Date(dates[1]);
+      end = new Date(end.setDate(end.getDate() + 2));
+      endDate = new Date(end).toISOString().split("T")[0];
+      startDate = new Date(dates[0]).toISOString().split("T")[0];
+    }
+
     try {
       axios
         .get(
-          `${apiUrl}/api/br-sessions?populate=br_user&filters[br_user][id][$eq]=${userId}&sort[0]=createdAt%3Aasc&pagination[pageSize]=100`
+          `${apiUrl}/api/br-sessions?populate=br_user&filters[br_user][id][$eq]=${userId}&sort[0]=createdAt%3Aasc&pagination[pageSize]=150&filters[createdAt][$gt]=${startDate}&filters[createdAt][$lte]=${endDate}`
         )
         .then((res) => {
           const sessionsData = res.data.data;
@@ -133,10 +151,21 @@ export function GetSessions(userId, setSessions) {
                 rounds: sessionData.rounds,
                 max: max,
                 min: min,
-                average: parseFloat(sessionData.average),
+                aver: parseFloat(sessionData.average),
               });
             });
             setSessions(sessions);
+          } else {
+            setSessions([
+              {
+                id: 0,
+                date: new Date().toLocaleString("default", { month: "short" }),
+                rounds: [],
+                max: 0,
+                min: 0,
+                aver: 0,
+              },
+            ]);
           }
         });
     } catch (e) {

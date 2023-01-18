@@ -11,25 +11,9 @@ import {
   Card,
 } from "@mantine/core";
 import { Cross1Icon } from "@radix-ui/react-icons";
-import { GetSessions } from "@utils/api";
-import { useContext, useEffect, useState } from "react";
-import { UserContext } from "@components/User/UserContext";
-import { AreaChart } from "@tremor/react";
 import StatChart from "@components/UI/Chart";
 
 export default function ModalStatistic({ opened, setOpened }) {
-  const userDetails = useContext(UserContext);
-
-  const [sessions, setSessions] = useState([]);
-
-  useEffect(() => {
-    async function getData() {
-      if (userDetails) {
-        const stats = await GetSessions(userDetails.userId, setSessions);
-      }
-    }
-    getData();
-  }, [userDetails]);
 
   return (
     <>
@@ -45,7 +29,7 @@ export default function ModalStatistic({ opened, setOpened }) {
           <Title order={1} color="cyan.7">
             STATISTIC
           </Title>
-          <StatChart sessions={sessions} />
+          <StatChart />
         </TypographyStylesProvider>
         <Container className="controls">
           <Center className="btn">
