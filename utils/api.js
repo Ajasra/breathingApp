@@ -103,3 +103,48 @@ export function SaveSettings(settings, userId, setSessionSettings) {
     }
   }
 }
+
+export function GetSessions(userId, setSessions) {
+  if (apiActive) {
+    try {
+      axios
+        .get(
+          `${apiUrl}/api/br-sessions?populate=br_user&filters[br_user][id][$eq]=${userId}&sort[0]=createdAt%3Aasc&pagination[pageSize]=100`
+        )
+        .then((res) => {
+          const sessionsData = res.data.data;
+          if (sessionsData.length > 0) {
+            let sessions = [];
+            sessionsData.forEach((session) => {
+              let sessionData = JSON.parse(session.attributes.retention_time);
+              let rounds = sessionData.rounds.map((round) => parseFloat(round));
+              let max = Math.max(...rounds);
+              let min = Math.min(...rounds);
+              let date = new Date(session.attributes.createdAt);
+              let month = date.toLocaleString("default", { month: "short" });
+              let day = date.getDate();
+              let year = date.getFullYear();
+              // let formattedDate = month + " " + day + ", " + year;
+              let formattedDate = month + " " + day;
+
+              sessions.push({
+                id: session.id,
+                date: formattedDate,
+                rounds: sessionData.rounds,
+                max: max,
+                min: min,
+                average: parseFloat(sessionData.average),
+              });
+            });
+            setSessions(sessions);
+          }
+        });
+    } catch (e) {
+      console.log(e);
+      setSessions([]);
+    }
+  } else {
+    console.log("API disabled");
+    setSessions([]);
+  }
+}

@@ -5,6 +5,8 @@ import "@styles/globals.css";
 import { ToastContainer } from "react-toastify";
 import { UserProvider } from "@components/User/UserContext";
 
+import '@tremor/react/dist/esm/tremor.css'
+
 export default function App(props) {
   const { Component, pageProps } = props;
 

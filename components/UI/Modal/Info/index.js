@@ -1,5 +1,4 @@
 import {
-  Blockquote,
   Modal,
   Title,
   TypographyStylesProvider,
