@@ -65,7 +65,7 @@ export default function SettingsPage(props) {
   }, []);
 
   return (
-    <Container className="mainContainer">
+    <div className="mainContainer">
       {setSessionSettings != null && (
         <Container>
           <Title order={1} color="cyan.7">
@@ -151,6 +151,6 @@ export default function SettingsPage(props) {
           </Center>
         </Container>
       )}
-    </Container>
+    </div>
   );
 }
