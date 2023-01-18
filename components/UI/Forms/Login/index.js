@@ -12,8 +12,6 @@ const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 const salt = "$2a$10$yij57FQYMJtkvplP9u73yO";
 
 export default function LoginForm(props) {
-  const { setOpened } = props;
-
   const [name, setName] = useState("");
   const [nameError, setNameError] = useState("");
 
@@ -54,7 +52,7 @@ export default function LoginForm(props) {
                 userId: usersData[0].id,
                 username: usersData[0].attributes.name,
               });
-              setOpened(false);
+              // setOpened(false);
             } else {
               setUserDetails(null);
               setNameError("User not found");

@@ -4,54 +4,60 @@ import {
   GearIcon,
   InfoCircledIcon,
   PersonIcon,
+  TimerIcon,
 } from "@radix-ui/react-icons";
 
 import styles from "@styles/MainMenu.module.css";
-import { useContext, useState } from "react";
-import ModalControl from "@components/UI/Modal/Control";
-import ModalInfo from "@components/UI/Modal/Info";
+import { useContext } from "react";
 import { UserContext } from "@components/User/UserContext";
-import ModalUser from "@components/UI/Modal/User";
-import ModalStatistic from "@components/UI/Modal/Statistic";
 
 export default function MainMenu(props) {
-  const userDetails = useContext(UserContext);
+  const { setPage } = props;
 
-  const [controlOpen, setControlOpen] = useState(false);
-  const [infoOpen, setInfoOpen] = useState(false);
-  const [userOpen, setUserOpenned] = useState(false);
-  const [statisticOpen, setStatisticOpen] = useState(false);
+  const userDetails = useContext(UserContext);
 
   return (
     <>
       <Group className={styles.MainMenu} spacing="xs">
         <Center className={styles.Button}>
-          <Tooltip label="Settings">
-            <GearIcon
+          <Tooltip label="Timer">
+            <TimerIcon
               className={styles.SvgIcon}
               onClick={() => {
-                setControlOpen(true);
+                setPage("timer");
               }}
             />
           </Tooltip>
         </Center>
         <Center className={styles.Button}>
-          <Tooltip label="Statistic">
-            <BarChartIcon
+          <Tooltip label="Settings">
+            <GearIcon
               className={styles.SvgIcon}
               onClick={() => {
-                setStatisticOpen(userDetails ? true : false);
+                setPage("settings");
               }}
-              style={{ opacity: userDetails != null ? 1 : 0.2 }}
             />
           </Tooltip>
         </Center>
+        {userDetails && (
+          <Center className={styles.Button}>
+            <Tooltip label="Statistic">
+              <BarChartIcon
+                className={styles.SvgIcon}
+                onClick={() => {
+                  setPage("statistics");
+                }}
+                style={{ opacity: userDetails != null ? 1 : 0.2 }}
+              />
+            </Tooltip>
+          </Center>
+        )}
         <Center className={styles.Button}>
           <Tooltip label="About">
             <InfoCircledIcon
               className={styles.SvgIcon}
               onClick={() => {
-                setInfoOpen(true);
+                setPage("information");
               }}
             />
           </Tooltip>
@@ -61,26 +67,13 @@ export default function MainMenu(props) {
             <PersonIcon
               className={styles.SvgIcon}
               onClick={() => {
-                setUserOpenned(true);
+                setPage("user");
               }}
               style={{ opacity: userDetails != null ? 1 : 0.2 }}
             />
           </Tooltip>
         </Center>
       </Group>
-
-      <ModalControl
-        opened={controlOpen}
-        setOpened={setControlOpen}
-        {...props}
-      />
-      <ModalInfo infoOpen={infoOpen} setInfoOpen={setInfoOpen} {...props} />
-      <ModalUser opened={userOpen} setOpened={setUserOpenned} {...props} />
-      <ModalStatistic
-        opened={statisticOpen}
-        setOpened={setStatisticOpen}
-        {...props}
-      />
     </>
   );
 }

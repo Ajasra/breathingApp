@@ -9,11 +9,9 @@ import { console } from "next/dist/compiled/@edge-runtime/primitives/console";
 import bcrypt from "bcryptjs";
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-const salt = '$2a$10$yij57FQYMJtkvplP9u73yO';
+const salt = "$2a$10$yij57FQYMJtkvplP9u73yO";
 
 export default function RegisterForm(props) {
-  const { setOpened } = props;
-
   const [name, setName] = useState("");
   const [nameError, setNameError] = useState("");
 
@@ -59,7 +57,6 @@ export default function RegisterForm(props) {
               setNameError("User already exist");
               setContinueLogin(false);
             } else {
-
               const hashedPassword = bcrypt.hashSync(password, salt);
 
               try {
@@ -75,7 +72,7 @@ export default function RegisterForm(props) {
                       userId: res.data.data.id,
                       username: res.data.data.attributes.name,
                     });
-                    setOpened(false);
+                    // setOpened(false);
                   });
               } catch (error) {
                 if (!error.response) {

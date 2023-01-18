@@ -1,28 +1,26 @@
-import { Container, Grid, Group, Text } from "@mantine/core";
+import { Container } from "@mantine/core";
 import MainMenu from "@components/UI/MainMenu";
 import CloseButton from "@components/UI/CloseButton";
 
 import styles from "@styles/Footer.module.css";
 
 export default function Footer(props) {
-  const { closeBtn, closeFunction, sessionSettings, setSessionSettings } = props;
+  const {
+    closeBtn,
+    closeFunction,
+    sessionSettings,
+    setSessionSettings,
+    setPage,
+  } = props;
 
   return (
     <Container className={styles.Footer}>
-      {/*<Text align="center">*/}
-      {/*  Based on the{" "}*/}
-      {/*  <a href="https://www.wimhofmethod.com/" target="_blank">*/}
-      {/*    Wim Hof Method*/}
-      {/*  </a>*/}
-      {/*  . Developed by{" "}*/}
-      {/*  <a href="https://twitter.com/Vasily_onl" target="_blank">*/}
-      {/*    Vasily*/}
-      {/*  </a>*/}
-      {/*  .*/}
-      {/*</Text>*/}
-
       <Container className={styles.Menu}>
-        <MainMenu sessionSettings={sessionSettings} setSessionSettings={setSessionSettings} />
+        <MainMenu
+          sessionSettings={sessionSettings}
+          setSessionSettings={setSessionSettings}
+          setPage={setPage}
+        />
         {closeBtn && <CloseButton onClick={closeFunction} />}
       </Container>
     </Container>

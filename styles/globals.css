@@ -75,6 +75,10 @@ a {
   --tw-ring-color: rgb(50 60 70 / var(--tw-ring-opacity));
 }
 
+.mainContainer {
+  padding-bottom: 4em;
+}
+
 @media (max-width: 600px) {
   #chart {
     width: 120%;
