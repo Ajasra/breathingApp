@@ -1,8 +1,8 @@
 import Head from "next/head";
 
-const description = "Interactive online exhibition of 3d printed pinhole photography. NFT collection and generative playground.";
-const currentURL = "https://imagineering.vasily.onl/";
-const previewImage = "https://imagineering.vasily.onl/assets/cover.jpg";
+const description = "Breathing timer based on Wim Hof method";
+const currentURL = "https://breathing.vasily.onl/";
+const previewImage = "https://breathing.vasily.onl/favicon.png";
 const siteName = "Breathing app";
 const twitterHandle = "@vasily_onl";
 
