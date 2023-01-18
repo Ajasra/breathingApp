@@ -88,6 +88,16 @@ export default function InformationPage() {
             represent actual data)
           </List.Item>
         </List>
+        <br />
+        <Text>
+          <a
+              href="https://github.com/Ajasra/breathingApp"
+              target="_blank"
+              rel="noreferrer"
+          >
+            Source code
+          </a>
+        </Text>
       </TypographyStylesProvider>
     </Container>
   );
