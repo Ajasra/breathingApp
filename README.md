@@ -1,35 +1,23 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Breathing APP
 
-## Getting Started
+This simple app was created first of all for a personal use based on [Wim Hof method](https://www.wimhofmethod.com/). You can use original app or follow the instruction on [youtube](https://www.youtube.com/watch?v=tybOi4hjZFQ) . This app is not affiliated with Wim Hof.
 
-First, run the development server:
+I decided to create this app as a simple exercise to learn React and create a tool where i could have more control over the settings and track my performance. I decided to open it to the public in case you find it useful.
+Please support Wim Hof and his work by [buying his book or courses](https://www.wimhofmethod.com/). You also always can support me by following me on [Twitter](https://twitter.com/Vasily_onl) or [buying me a book](https://www.buymeacoffee.com/vasilyonl) .
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+This is work in progress and I will improve it based on my needs, but I also open for your feedback and suggestions. You can contact me on [Twitter](https://twitter.com/Vasily_onl).
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Roadmap
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+- [x] Dashboard and statistics for recorded sessions and settings (correlation how different settings affect result).
+- [ ] Add heartbeat record (manual, need to see how it will better represent actual data.
+- [ ] Open for ideas
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+### Development stack
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
-"# breathingApp" 
+- [Wim Hof metod](https://www.wimhofmethod.com/)
+- [Next.js](https://nextjs.org/)
+- [Strapi](https://strapi.io/) as backend
+- [Mantine](https://mantine.dev/) for UI
+- [Tremor](https://www.tremor.so/) for chart
+- [Screen-wake-lock](https://www.npmjs.com/package/screen-wake-lock) to keep phone unlocked
