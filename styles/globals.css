@@ -78,3 +78,7 @@ a {
 .mainContainer {
   padding-bottom: 4em;
 }
+
+.selected-text {
+    color: cyan;
+}

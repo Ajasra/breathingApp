@@ -1,11 +1,12 @@
 import PageHeader from "@components/UI/Header";
-import { Button, Center, Container, Text, Title } from "@mantine/core";
+import {Button, Center, Container, Stack, Text, Title} from "@mantine/core";
 import styles from "@styles/Home.module.css";
 import Clock from "@components/UI/Clock";
 import { GetSettings, SaveSession } from "@utils/api";
 import { UserContext } from "@components/User/UserContext";
 import { useScreenWakeLock } from "screen-wake-lock";
 import { useContext, useEffect, useState } from "react";
+import ModalAddResult from "@components/UI/Modal/AddResult";
 
 export default function Timer(props) {
   const {
@@ -34,6 +35,8 @@ export default function Timer(props) {
   const [maxRetention, setMaxRetention] = useState(0);
   const [averageRetention, setAverageRetention] = useState(0);
   const [averagePercent, setAveragePercent] = useState(50);
+  
+  const [addManual, setAddManual] = useState(false);
 
   useEffect(() => {
     closeSession();
@@ -224,11 +227,18 @@ export default function Timer(props) {
       <PageHeader title={subtitle} />
       <Container className={styles.main}>
         {!activeSession && (
-          <Center className={styles.StartButton}>
+          <Stack className={styles.StartButton}>
             <Button size="xl" onClick={startSession} radius="md">
               START SESSION
             </Button>
-          </Center>
+            <Button size="xl" onClick={
+              ()=>{
+                setAddManual(true)
+              }
+            } radius="md">
+                ADD MANUAL
+            </Button>
+          </Stack>
         )}
         {activeSession && (
           <>
@@ -340,6 +350,7 @@ export default function Timer(props) {
             )}
           </>
         )}
+        <ModalAddResult opened={addManual} setOpened={setAddManual} />
       </Container>
     </>
   );
