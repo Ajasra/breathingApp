@@ -1,14 +1,13 @@
 import {
   Card,
-  Title,
   AreaChart,
   DateRangePicker,
-  DateRangePickerValue,
+  Flex,
 } from "@tremor/react";
-import styles from "@styles/Chart.module.css";
 import { useContext, useEffect, useState } from "react";
 import { GetSessions } from "@utils/api";
 import { UserContext } from "@components/User/UserContext";
+import { Checkbox, Stack } from "@mantine/core";
 
 const options = [
   {
@@ -46,6 +45,12 @@ export default function StatChart() {
   const [dates, setDates] = useState([undefined, undefined, "m"]);
   const [sessions, setSessions] = useState([]);
 
+  const [categories, setCategories] = useState(["min", "aver", "max"]);
+
+  const [checkedMin, setCheckedMin] = useState("min");
+  const [checkedMax, setCheckedMax] = useState("max");
+  const [checkedAver, setCheckedAver] = useState("aver");
+
   useEffect(() => {
     async function getData() {
       if (userDetails) {
@@ -54,6 +59,10 @@ export default function StatChart() {
     }
     getData();
   }, [dates]);
+
+  useEffect(() => {
+    setCategories([checkedMin, checkedMax, checkedAver]);
+  }, [checkedMin, checkedMax, checkedAver]);
 
   return (
     <div id="chart">
@@ -72,9 +81,31 @@ export default function StatChart() {
           maxWidth="max-w-none"
           marginTop="mt-0"
         />
+        <br />
+        <Flex
+          direction={{ base: "column", sm: "row" }}
+          gap={{ base: "sm", sm: "lg" }}
+          justify={{ sm: "center" }}
+        >
+          <Checkbox
+            checked={checkedMin}
+            onChange={(event) => setCheckedMin(event.currentTarget.checked ? "min" : "")}
+            label="Min"
+          />
+          <Checkbox
+            checked={checkedAver}
+            onChange={(event) => setCheckedAver(event.currentTarget.checked ? "aver" : "")}
+            label="Aver"
+          />
+          <Checkbox
+            checked={checkedMax}
+            onChange={(event) => setCheckedMax(event.currentTarget.checked ? "max" : "")}
+            label="Max"
+          />
+        </Flex>
         <AreaChart
           data={sessions}
-          categories={["min", "aver", "max"]}
+          categories={categories}
           dataKey="date"
           height="h-80"
           colors={["blue", "sky", "teal"]}
@@ -83,6 +114,8 @@ export default function StatChart() {
           marginBottom="mb-0"
           marginLeft="ml-0"
           showAnimation={true}
+          autoMinValue={true}
+          showLegend={false}
         />
       </Card>
     </div>
