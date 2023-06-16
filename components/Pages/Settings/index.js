@@ -9,6 +9,8 @@ export default function SettingsPage(props) {
   const [speed, setSpeed] = useState(sessionSettings.speed - 10);
   const [count, setCount] = useState(sessionSettings.count - 30);
   const [cycles, setCycles] = useState(sessionSettings.cycles - 1);
+  
+  const [update, setUpdate] = useState(false);
 
   const userDetails = useContext(UserContext);
 
@@ -22,10 +24,11 @@ export default function SettingsPage(props) {
       countDown: 3,
       holdTime: 15,
     });
+    setUpdate(true);
   }
 
   useEffect(() => {
-    if (sessionSettings != null) {
+    if (sessionSettings != null && update){
       setSpeed(sessionSettings.speed - 10);
       setCount(sessionSettings.count - 30);
       setCycles(sessionSettings.cycles - 1);
@@ -42,6 +45,8 @@ export default function SettingsPage(props) {
           JSON.stringify(sessionSettings)
         );
       }
+      
+      setUpdate(false);
     }
   }, [sessionSettings]);
 

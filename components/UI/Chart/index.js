@@ -50,6 +50,8 @@ export default function StatChart() {
   const [checkedMin, setCheckedMin] = useState("min");
   const [checkedMax, setCheckedMax] = useState("max");
   const [checkedAver, setCheckedAver] = useState("aver");
+  
+  console.log(sessions)
 
   useEffect(() => {
     async function getData() {

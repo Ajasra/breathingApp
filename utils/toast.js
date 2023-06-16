@@ -20,7 +20,6 @@ export const withToast = (promise) => {
           return (
             <div>
               Saved
-              {console.log(data)}
             </div>
           );
         },
@@ -33,7 +32,6 @@ export const withToast = (promise) => {
           return (
             <div>
               <p>Transaction has failed</p>
-              {console.log(data)}
             </div>
           );
         },

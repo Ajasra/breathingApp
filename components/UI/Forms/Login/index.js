@@ -39,25 +39,23 @@ export default function LoginForm(props) {
 
     if (continueLogin) {
       const hashedPassword = bcrypt.hashSync(password, salt);
-
-      try {
-        axios
-          .get(
-            `${apiUrl}/api/br-users/?filters[name][$eq]=${name}&filters[password][$eq]=${hashedPassword}`
-          )
-          .then((res) => {
-            const usersData = res.data.data;
-            if (usersData.length > 0) {
-              setUserDetails({
-                userId: usersData[0].id,
-                username: usersData[0].attributes.name,
-              });
-              // setOpened(false);
-            } else {
-              setUserDetails(null);
-              setNameError("User not found");
-            }
-          });
+      
+      try{
+        await axios.post(`${apiUrl}/api/login`, {
+          name: name,
+          password: password
+        })
+        .then((res) => {
+          console.log(res);
+          if(res.data.code == 200) {
+            setUserDetails({
+              userId: res.data.user.id,
+              username: res.data.user.name
+            })
+          }else{
+            setNameError(res.data.message);
+          }
+        })
       } catch (error) {
         if (!error.response) {
           console.log("Network error");
@@ -67,6 +65,35 @@ export default function LoginForm(props) {
           console.log("Bad request");
         }
       }
+      
+
+      // try {
+      //   axios
+      //     .get(
+      //       `${apiUrl}/api/br-users/?filters[name][$eq]=${name}&filters[password][$eq]=${hashedPassword}`
+      //     )
+      //     .then((res) => {
+      //       const usersData = res.data.data;
+      //       if (usersData.length > 0) {
+      //         setUserDetails({
+      //           userId: usersData[0].id,
+      //           username: usersData[0].attributes.name,
+      //         });
+      //         // setOpened(false);
+      //       } else {
+      //         setUserDetails(null);
+      //         setNameError("User not found");
+      //       }
+      //     });
+      // } catch (error) {
+      //   if (!error.response) {
+      //     console.log("Network error");
+      //   } else if (error.response.status == 401) {
+      //     console.log("Unauthorized");
+      //   } else if (error.response.status == 400) {
+      //     console.log("Bad request");
+      //   }
+      // }
     } else {
       console.log("login failed");
     }

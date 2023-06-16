@@ -47,57 +47,84 @@ export default function RegisterForm(props) {
       setPasswordConfirmError("");
     }
 
-    if (continueLogin) {
-      try {
-        axios
-          .get(`${apiUrl}/api/br-users/?filters[name][$eq]=${name}`)
-          .then((res) => {
-            const usersData = res.data.data;
-            if (usersData.length > 0) {
-              setNameError("User already exist");
-              setContinueLogin(false);
-            } else {
-              const hashedPassword = bcrypt.hashSync(password, salt);
-
-              try {
-                axios
-                  .post(`${apiUrl}/api/br-users`, {
-                    data: {
-                      name: name,
-                      password: hashedPassword,
-                    },
-                  })
-                  .then((res) => {
+    // if (continueLogin) {
+        
+        try {
+            await axios.post(`${apiUrl}/api/register`, {
+                name: name,
+                password: password
+            })
+            .then((res) => {
+                console.log(res);
+                if(res.data.code == 200) {
                     setUserDetails({
-                      userId: res.data.data.id,
-                      username: res.data.data.attributes.name,
+                        userId: res.data.user.id,
+                        username: res.data.user.name
                     });
-                    // setOpened(false);
-                  });
-              } catch (error) {
-                if (!error.response) {
-                  console.log("Network error");
-                } else if (error.response.status == 401) {
-                  console.log("Unauthorized");
-                } else if (error.response.status == 400) {
-                  console.log("Bad request");
+                }else {
+                    setNameError(res.data.message);
                 }
-              }
+                setContinueLogin(false);
+            })
+        } catch (error) {
+            if (!error.response) {
+                console.log('Network error')
+            } else if (error.response.status == 401) {
+                console.log('Unauthorized')
             }
-          });
-      } catch (error) {
-        if (!error.response) {
-          console.log("Network error");
-        } else if (error.response.status == 401) {
-          console.log("Unauthorized");
-        } else if (error.response.status == 400) {
-          console.log("Bad request");
+            setContinueLogin(false);
         }
-        setContinueLogin(false);
-      }
-    } else {
-      console.log("login failed");
-    }
+        
+      // try {
+      //   axios
+      //     .get(`${apiUrl}/api/br-users/?filters[name][$eq]=${name}`)
+      //     .then((res) => {
+      //       const usersData = res.data.data;
+      //       if (usersData.length > 0) {
+      //         setNameError("User already exist");
+      //         setContinueLogin(false);
+      //       } else {
+      //         const hashedPassword = bcrypt.hashSync(password, salt);
+      //
+      //         try {
+      //           axios
+      //             .post(`${apiUrl}/api/br-users`, {
+      //               data: {
+      //                 name: name,
+      //                 password: hashedPassword,
+      //               },
+      //             })
+      //             .then((res) => {
+      //               setUserDetails({
+      //                 userId: res.data.data.id,
+      //                 username: res.data.data.attributes.name,
+      //               });
+      //               // setOpened(false);
+      //             });
+      //         } catch (error) {
+      //           if (!error.response) {
+      //             console.log("Network error");
+      //           } else if (error.response.status == 401) {
+      //             console.log("Unauthorized");
+      //           } else if (error.response.status == 400) {
+      //             console.log("Bad request");
+      //           }
+      //         }
+      //       }
+      //     });
+      // } catch (error) {
+      //   if (!error.response) {
+      //     console.log("Network error");
+      //   } else if (error.response.status == 401) {
+      //     console.log("Unauthorized");
+      //   } else if (error.response.status == 400) {
+      //     console.log("Bad request");
+      //   }
+      //   setContinueLogin(false);
+      // }
+    // } else {
+    //   console.log("login failed");
+    // }
 
     setContinueLogin(true);
   }
