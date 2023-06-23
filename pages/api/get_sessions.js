@@ -28,7 +28,7 @@ export default async function handler(req, res) {
 			startDate = new Date(dates[0]).toISOString();
 		}
 		
-		const selectStatement = `SELECT * FROM sessions WHERE user_id = '${user_id}' AND created_at >= '${startDate}' AND created_at <= '${endDate}'`;
+		const selectStatement = `SELECT * FROM sessions WHERE user_id = '${user_id}' AND created_at >= '${startDate}' AND created_at <= '${endDate}' ORDER BY created_at ASC`;
 		console.log(selectStatement);
 		
 		const select = await client.query(selectStatement);
@@ -47,7 +47,7 @@ export default async function handler(req, res) {
 				let day = date.getDate();
 				let year = date.getFullYear();
 				// let formattedDate = month + " " + day + ", " + year;
-				let formattedDate = month + " " + day;
+				let formattedDate = year + " " +  month + " " + day;
 				
 				sessions.push({
 					id: session.id,
