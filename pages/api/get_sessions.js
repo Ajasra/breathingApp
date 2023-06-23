@@ -47,7 +47,7 @@ export default async function handler(req, res) {
 				let day = date.getDate();
 				let year = date.getFullYear();
 				// let formattedDate = month + " " + day + ", " + year;
-				let formattedDate = year + " " +  month + " " + day;
+				let formattedDate = month + " " + day;
 				
 				sessions.push({
 					id: session.id,
